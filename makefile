@@ -36,6 +36,8 @@ SRC_A  = makefile
 # project header file locations
 INC_F  = include
 
+INC += -Ivendor/eigen
+
 # build targets
 all: $(BUILD)/$(PROJECT).bin
 
