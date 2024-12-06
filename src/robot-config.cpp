@@ -66,7 +66,7 @@ PID::pid_config_t drive_pid_cfg{
     .p = 0.045,
     .i = 0.0,
     .d = 0.0003,
-    .deadband = 0.5,
+    .deadband = 0.2,
     .on_target_time = 0.1,
 };
 
@@ -96,8 +96,8 @@ robot_specs_t robot_cfg{
     .correction_pid = drive_correction_pid,
 };
 
-// OdometryNWheel<3> odom({left_enc, right_enc, front_enc}, {left_enc_cfg, right_enc_cfg, front_enc_cfg}, &imu, true);
-OdometryTank odom(left_enc, right_enc, robot_cfg, &imu);
+OdometryNWheel<3> odom({left_enc, right_enc, front_enc}, {left_enc_cfg, right_enc_cfg, front_enc_cfg}, &imu, true);
+// OdometryTank odom(left_enc, right_enc, robot_cfg, &imu);
 TankDrive drive_sys(left_motors, right_motors, robot_cfg, &odom);
 
 /**
