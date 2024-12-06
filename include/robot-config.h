@@ -34,6 +34,8 @@ void intake(double volts);
 void intake();
 void outtake(double volts);
 void outtake();
+void conveyor_intake(double volts);
+void conveyor_intake();
 
 extern vex::motor_group left_motors;
 extern vex::motor_group right_motors;

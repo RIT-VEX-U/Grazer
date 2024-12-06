@@ -30,7 +30,7 @@ vex::motor right_back_bottom(vex::PORT4, vex::gearSetting::ratio6_1, false);
 
 vex::motor intake_roller(vex::PORT19, vex::gearSetting::ratio6_1, false);
 vex::motor intake_ramp(vex::PORT11, vex::gearSetting::ratio6_1, false);
-vex::motor conveyor(vex::PORT9, vex::gearSetting::ratio6_1, false);
+vex::motor conveyor(vex::PORT16, vex::gearSetting::ratio6_1, true);
 
 const double intake_volts = 12.0;
 
@@ -54,6 +54,14 @@ void outtake() {
     intake_ramp.spin(vex::directionType::rev, intake_volts, vex::volt);
 }
 
+void conveyor_intake(double volts) {
+    conveyor.spin(vex::directionType::fwd, volts, vex::volt);
+}
+
+void conveyor_intake() {
+    conveyor.spin(vex::directionType::fwd, intake_volts, vex::volt);
+}
+
 vex::motor_group left_motors{left_front_top, left_front_bottom, left_back_top, left_back_bottom};
 vex::motor_group right_motors{right_front_top, right_front_bottom, right_back_top, right_back_bottom};
 // Pneumatics
@@ -63,18 +71,18 @@ vex::digital_out ring_pusher_sol{Brain.ThreeWirePort.B};
 // ================ SUBSYSTEMS ================
 
 PID::pid_config_t drive_pid_cfg{
-    .p = 0.045,
+    .p = 0.05,
     .i = 0.0,
     .d = 0.0003,
-    .deadband = 0.2,
+    .deadband = 1,
     .on_target_time = 0.1,
 };
 
 PID drive_pid{drive_pid_cfg};
 
 PID::pid_config_t turn_pid_cfg{
-    .p = 0.01625,
-    .i = 0.005,
+    .p = 0.0158,
+    .i = 0.0,
     .d = 0.001,
     .deadband = 1.5,
     .on_target_time = 0.1,
@@ -82,7 +90,9 @@ PID::pid_config_t turn_pid_cfg{
 
 PID turn_pid{turn_pid_cfg};
 
-PID::pid_config_t drive_correction_pid{};
+PID::pid_config_t drive_correction_pid{
+
+};
 
 robot_specs_t robot_cfg{
     .robot_radius = 12.0,
