@@ -74,16 +74,16 @@ PID::pid_config_t drive_pid_cfg{
     .p = 0.05,
     .i = 0.0,
     .d = 0.0003,
-    .deadband = 1,
+    .deadband = 1.5,
     .on_target_time = 0.1,
 };
 
 PID drive_pid{drive_pid_cfg};
 
 PID::pid_config_t turn_pid_cfg{
-    .p = 0.0158,
-    .i = 0.0,
-    .d = 0.001,
+    .p = 0.015,
+    .i = 0.002,
+    .d = 0.00075,
     .deadband = 1.5,
     .on_target_time = 0.1,
 };
@@ -98,7 +98,8 @@ robot_specs_t robot_cfg{
     .robot_radius = 12.0,
     .odom_wheel_diam = 2.125,
     .odom_gear_ratio = 1.0,
-    .dist_between_wheels = 11.0,
+    .dist_between_wheels = 12.5,
+    .drive_correction_cutoff = 10,
 
     // .drive_correction_cutoff = 0,
     .drive_feedback = &drive_pid,
@@ -116,6 +117,9 @@ TankDrive drive_sys(left_motors, right_motors, robot_cfg, &odom);
 void robot_init()
 {
     imu.startCalibration();
+    while (imu.isCalibrating()) {
+        vexDelay(10);
+    }
 
     conveyor_optical.setLight(vex::ledState::on);
     conveyor_optical.setLightPower(100, vex::percent);
@@ -123,7 +127,7 @@ void robot_init()
     screen::start_screen(
         Brain.Screen,
         {
-            new screen::PIDPage(drive_pid, "drive")
+            new screen::PIDPage(turn_pid, "turn")
         },
         0
     );
