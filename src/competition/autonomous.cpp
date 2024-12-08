@@ -99,6 +99,13 @@ void skills() {
                 pose_t pos = odombase->get_position();
             	printf("ODO X: %.2f, Y: %.2f, R:%.2f\n", pos.x, pos.y, pos.rot);
 				vexDelay(100);
+
+				if((conveyor.current() > 2) && conveyor.velocity(rpm) < 0.5){
+					printf("Conveyor Stalling");
+					conveyor_intake(-10);
+					vexDelay(500);
+					conveyor_intake(10);
+				}
 			}
 			return true;
 		})),
@@ -150,7 +157,7 @@ void skills() {
 		new DelayCommand(100),
 		conveyor_stop_command(),
 		drive_sys.TurnToHeadingCmd(45, 0.6)->withTimeout(1.25),
-		drive_sys.DriveToPointCmd({12, 12}, vex::reverse, 0.6)->withTimeout(1),
+		drive_sys.DriveToPointCmd({14, 14}, vex::reverse, 0.6)->withTimeout(1),
 		goal_grabber_command(false),
 		drive_sys.DriveToPointCmd({24, 24}, vex::forward, 0.6)->withTimeout(1),
 
@@ -168,11 +175,11 @@ void skills() {
 		conveyor_intake_command(),
 
 		// Second Ring
-		drive_sys.TurnToPointCmd(120, 48, vex::forward, 0.6)->withTimeout(1),
+		drive_sys.TurnToHeadingCmd(0, 0.6)->withTimeout(1),
 		drive_sys.DriveToPointCmd({120, 48}, vex::forward)->withTimeout(1),
 
 		// Third Ring
-		drive_sys.TurnToPointCmd(120, 24, vex::forward, 0.6)->withTimeout(1),
+		drive_sys.TurnToHeadingCmd(-90, 0.6)->withTimeout(1),
 		drive_sys.DriveToPointCmd({120, 24}, vex::forward, 0.6)->withTimeout(1),
 		
 		// Fourth Ring
