@@ -97,8 +97,14 @@ void skills() {
 			while(true) {
 				OdometryBase *odombase = &odom;
                 pose_t pos = odombase->get_position();
-            	printf("ODO X: %.2f, Y: %.2f, R:%.2f\n", pos.x, pos.y, pos.rot);
+            	printf("ODO X: %.2f, Y: %.2f, R:%.2f, Concurr: %f\n", pos.x, pos.y, pos.rot, conveyor.current());
 				vexDelay(100);
+				if((conveyor.current() > 2) && conveyor.velocity(rpm) < 0.5){
+					printf("Conveyor Stalling");
+					conveyor_intake(-10);
+					vexDelay(500);
+					conveyor_intake(10);
+				}
 			}
 			return true;
 		})),
@@ -109,8 +115,8 @@ void skills() {
 
 		// Second Ring
 		drive_sys.TurnToHeadingCmd(-45, .6) -> withTimeout(1),
-		conveyor_intake_command(),
-		new DelayCommand(300),
+		conveyor_intake_command(10),
+		new DelayCommand(350),
 		conveyor_stop_command(),
 		intake_command(),
 		drive_sys.DriveToPointCmd({48, 48}, vex::forward, .6) -> withTimeout(1),
@@ -121,7 +127,7 @@ void skills() {
 		drive_sys.DriveToPointCmd({48, 24}, vex::reverse, .6) -> withTimeout(1.25),
 		goal_grabber_command(true),
 		new DelayCommand(200),
-		conveyor_intake_command(),
+		conveyor_intake_command(10),
 		intake_command(),
 
 		// Third Ring
@@ -146,38 +152,48 @@ void skills() {
 		
 		// Drop
 		new DelayCommand(1000),
-		conveyor_intake_command(-12),
+		conveyor_intake_command(-10),
 		new DelayCommand(100),
 		conveyor_stop_command(),
 		drive_sys.TurnToHeadingCmd(45, 0.6)->withTimeout(1.25),
 		drive_sys.DriveToPointCmd({12, 12}, vex::reverse, 0.6)->withTimeout(1),
 		goal_grabber_command(false),
-		drive_sys.DriveToPointCmd({24, 24}, vex::forward, 0.6)->withTimeout(1),
-
+		// drive_sys.DriveToPointCmd({24, 24}, vex::forward, 0.6)->withTimeout(1),
 		// SECOND HALF
+		drive_sys.TurnToPointCmd(64, 64, vex::forward, 0.6)->withTimeout(1),
+		drive_sys.DriveToPointCmd({64,64}, vex::forward, 1)->withTimeout(4),
+		new DebugCommand,
 
 		// First ring
 		conveyor_stop_command(),
 		drive_sys.TurnToHeadingCmd(0, 0.6)->withTimeout(1),
-		drive_sys.DriveToPointCmd({96, 24}, vex::forward, 0.6)->withTimeout(3),
-
+		drive_sys.TurnToHeadingCmd(0, 0.6)->withTimeout(1),
+		// drive_sys.DriveToPointCmd({96, 24}, vex::forward, 0.6)->withTimeout(4),
+		drive_sys.PurePursuitCmd(PurePursuit::Path({
+			{48, 24},
+			{96, 24}
+		}, 2
+			), vex::forward, 0.6),
+			new DebugCommand,
+		// odom.SetPositionCmd({96, 24, 0}),
 		// Second Mogo
 		drive_sys.TurnToHeadingCmd(-90, 0.6)->withTimeout(1),
-		drive_sys.DriveToPointCmd({96, 48}, vex::reverse, 0.6)->withTimeout(1),
+		drive_sys.DriveToPointCmd({96, 48}, vex::reverse, 0.6)->withTimeout(2),
 		goal_grabber_command(true),
 		conveyor_intake_command(),
-
 		// Second Ring
 		drive_sys.TurnToPointCmd(120, 48, vex::forward, 0.6)->withTimeout(1),
 		drive_sys.DriveToPointCmd({120, 48}, vex::forward)->withTimeout(1),
 
 		// Third Ring
 		drive_sys.TurnToPointCmd(120, 24, vex::forward, 0.6)->withTimeout(1),
+		drive_sys.TurnToPointCmd(120, 24, vex::forward, 0.6)->withTimeout(1),
 		drive_sys.DriveToPointCmd({120, 24}, vex::forward, 0.6)->withTimeout(1),
 		
 		// Fourth Ring
 		// pickup blue first
-		drive_sys.TurnToPointCmd(144, 0, vex::forward, 0.6)->withTimeout(0.6),
+		// drive_sys.TurnToPointCmd(144, 0, vex::forward, 0.6)->withTimeout(0.6),
+		drive_sys.TurnToHeadingCmd(0.0, 0.6)->withTimeout(1),
 		new DelayCommand(500),
 		conveyor_stop_command(),
 		// go into corner
