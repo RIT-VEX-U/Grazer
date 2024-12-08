@@ -136,7 +136,7 @@ void skills() {
 
 		// Fourth Ring
 		drive_sys.TurnToHeadingCmd(-90, 0.7)->withTimeout(0.8),
-		drive_sys.DriveToPointCmd({72, 16}, vex::forward, 0.6)->withTimeout(0.5),
+		drive_sys.DriveToPointCmd({72, 13}, vex::forward, 0.6)->withTimeout(0.5),
 		
 
 		// Fifth Ring
@@ -160,68 +160,69 @@ void skills() {
 		goal_grabber_command(false),
 		// drive_sys.DriveToPointCmd({24, 24}, vex::forward, 0.6)->withTimeout(1),
 		// SECOND HALF
-		drive_sys.TurnToPointCmd(64, 64, vex::forward, 0.6)->withTimeout(1),
-		drive_sys.DriveToPointCmd({64,64}, vex::forward, 1)->withTimeout(4),
-		new DebugCommand,
+		drive_sys.TurnToHeadingCmd(45, 0.6)->withTimeout(1),
+		// drive_sys.DriveTankCmd(0.5, 0.5),
+		drive_sys.DriveForwardCmd(95, vex::forward, 0.8)->withTimeout(4),
+		// new DebugCommand,
 
 		// First ring
-		conveyor_stop_command(),
-		drive_sys.TurnToHeadingCmd(0, 0.6)->withTimeout(1),
-		drive_sys.TurnToHeadingCmd(0, 0.6)->withTimeout(1),
-		// drive_sys.DriveToPointCmd({96, 24}, vex::forward, 0.6)->withTimeout(4),
-		drive_sys.PurePursuitCmd(PurePursuit::Path({
-			{48, 24},
-			{96, 24}
-		}, 2
-			), vex::forward, 0.6),
-			new DebugCommand,
-		// odom.SetPositionCmd({96, 24, 0}),
-		// Second Mogo
-		drive_sys.TurnToHeadingCmd(-90, 0.6)->withTimeout(1),
-		drive_sys.DriveToPointCmd({96, 48}, vex::reverse, 0.6)->withTimeout(2),
-		goal_grabber_command(true),
-		conveyor_intake_command(),
-		// Second Ring
-		drive_sys.TurnToPointCmd(120, 48, vex::forward, 0.6)->withTimeout(1),
-		drive_sys.DriveToPointCmd({120, 48}, vex::forward)->withTimeout(1),
+		// conveyor_stop_command(),
+		// drive_sys.TurnToHeadingCmd(0, 0.6)->withTimeout(1),
+		// drive_sys.TurnToHeadingCmd(0, 0.6)->withTimeout(1),
+		// // drive_sys.DriveToPointCmd({96, 24}, vex::forward, 0.6)->withTimeout(4),
+		// drive_sys.PurePursuitCmd(PurePursuit::Path({
+		// 	{48, 24},
+		// 	{96, 24}
+		// }, 2
+		// 	), vex::forward, 0.6),
+		// 	new DebugCommand,
+		// // odom.SetPositionCmd({96, 24, 0}),
+		// // Second Mogo
+		// drive_sys.TurnToHeadingCmd(-90, 0.6)->withTimeout(1),
+		// drive_sys.DriveToPointCmd({96, 48}, vex::reverse, 0.6)->withTimeout(2),
+		// goal_grabber_command(true),
+		// conveyor_intake_command(),
+		// // Second Ring
+		// drive_sys.TurnToPointCmd(120, 48, vex::forward, 0.6)->withTimeout(1),
+		// drive_sys.DriveToPointCmd({120, 48}, vex::forward)->withTimeout(1),
 
-		// Third Ring
-		drive_sys.TurnToPointCmd(120, 24, vex::forward, 0.6)->withTimeout(1),
-		drive_sys.TurnToPointCmd(120, 24, vex::forward, 0.6)->withTimeout(1),
-		drive_sys.DriveToPointCmd({120, 24}, vex::forward, 0.6)->withTimeout(1),
+		// // Third Ring
+		// drive_sys.TurnToPointCmd(120, 24, vex::forward, 0.6)->withTimeout(1),
+		// drive_sys.TurnToPointCmd(120, 24, vex::forward, 0.6)->withTimeout(1),
+		// drive_sys.DriveToPointCmd({120, 24}, vex::forward, 0.6)->withTimeout(1),
 		
-		// Fourth Ring
-		// pickup blue first
-		// drive_sys.TurnToPointCmd(144, 0, vex::forward, 0.6)->withTimeout(0.6),
-		drive_sys.TurnToHeadingCmd(0.0, 0.6)->withTimeout(1),
-		new DelayCommand(500),
-		conveyor_stop_command(),
-		// go into corner
-		drive_sys.DriveToPointCmd({132, 12}, vex::forward, 0.6)->withTimeout(2),
-		// go outta corner
-		drive_sys.DriveToPointCmd({144, 24}, vex::reverse, 0.6)->withTimeout(2),
-		// turn sideways to spit
-		drive_sys.TurnToHeadingCmd(-135, 0.6)->withTimeout(1),
-		outtake_command(),
-		// push it a bit
-		drive_sys.DriveForwardCmd(6, vex::forward, 0.4)->withTimeout(1),
-		drive_sys.DriveForwardCmd(6, vex::reverse, 0.4)->withTimeout(1),
-		intake_command(),
-		// go into corner for red
-		drive_sys.TurnToPointCmd(144, 0, vex::forward, 0.6)->withTimeout(1),
-		drive_sys.DriveToPointCmd({132, 12}, vex::forward, 0.6)->withTimeout(1),
-		conveyor_intake_command(),
-		new DelayCommand(1000),
-		// go back out and rotate
-		drive_sys.DriveForwardCmd(8, vex::reverse, 0.6)->withTimeout(1),
-		drive_sys.TurnToHeadingCmd(135, 0.6)->withTimeout(1),
-		// put mogo in corner
-		drive_sys.DriveToPointCmd({132, 12}, vex::reverse, 0.6)->withTimeout(2),
-		goal_grabber_command(false),
-		stop_intake(),
-		conveyor_stop_command(),
-		// drive into ladder
-		drive_sys.DriveForwardCmd(72, vex::forward, 0.8)->withTimeout(3),
+		// // Fourth Ring
+		// // pickup blue first
+		// // drive_sys.TurnToPointCmd(144, 0, vex::forward, 0.6)->withTimeout(0.6),
+		// drive_sys.TurnToHeadingCmd(0.0, 0.6)->withTimeout(1),
+		// new DelayCommand(500),
+		// conveyor_stop_command(),
+		// // go into corner
+		// drive_sys.DriveToPointCmd({132, 12}, vex::forward, 0.6)->withTimeout(2),
+		// // go outta corner
+		// drive_sys.DriveToPointCmd({144, 24}, vex::reverse, 0.6)->withTimeout(2),
+		// // turn sideways to spit
+		// drive_sys.TurnToHeadingCmd(-135, 0.6)->withTimeout(1),
+		// outtake_command(),
+		// // push it a bit
+		// drive_sys.DriveForwardCmd(6, vex::forward, 0.4)->withTimeout(1),
+		// drive_sys.DriveForwardCmd(6, vex::reverse, 0.4)->withTimeout(1),
+		// intake_command(),
+		// // go into corner for red
+		// drive_sys.TurnToPointCmd(144, 0, vex::forward, 0.6)->withTimeout(1),
+		// drive_sys.DriveToPointCmd({132, 12}, vex::forward, 0.6)->withTimeout(1),
+		// conveyor_intake_command(),
+		// new DelayCommand(1000),
+		// // go back out and rotate
+		// drive_sys.DriveForwardCmd(8, vex::reverse, 0.6)->withTimeout(1),
+		// drive_sys.TurnToHeadingCmd(135, 0.6)->withTimeout(1),
+		// // put mogo in corner
+		// drive_sys.DriveToPointCmd({132, 12}, vex::reverse, 0.6)->withTimeout(2),
+		// goal_grabber_command(false),
+		// stop_intake(),
+		// conveyor_stop_command(),
+		// // drive into ladder
+		// drive_sys.DriveForwardCmd(72, vex::forward, 0.8)->withTimeout(3),
 
 	};
 	cc.run();
