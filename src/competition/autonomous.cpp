@@ -102,9 +102,9 @@ void skills() {
 
 				if((conveyor.current() > 2) && conveyor.velocity(rpm) < 0.5){
 					printf("Conveyor Stalling");
-					conveyor_intake(-10);
+					conveyor_intake(-12);
 					vexDelay(500);
-					conveyor_intake(10);
+					conveyor_intake(12);
 				}
 			}
 			return true;
@@ -143,10 +143,10 @@ void skills() {
 		// Fifth Ring
 		drive_sys.DriveToPointCmd({72, 24}, vex::reverse, 0.3)->withTimeout(2),
 		drive_sys.TurnToPointCmd(24, 24, vex::forward, 0.6)->withTimeout(1),
-		drive_sys.DriveToPointCmd({24, 24}, vex::forward, 0.7)->withTimeout(2),
+		drive_sys.DriveToPointCmd({22, 24}, vex::forward, 0.7)->withTimeout(2),
 
 		// Sixth Ring
-		drive_sys.TurnToPointCmd(0, 0, vex::forward, 0.6)->withTimeout(1),
+		drive_sys.TurnToHeadingCmd(-135, 0.6)->withTimeout(1.25),
 		drive_sys.DriveToPointCmd({12, 12}, vex::forward, 0.6)->withTimeout(1),
 		new DelayCommand(1000),
 		drive_sys.DriveForwardCmd(8, vex::reverse, 0.6)->withTimeout(0.5),
@@ -159,6 +159,7 @@ void skills() {
 		drive_sys.TurnToHeadingCmd(45, 0.6)->withTimeout(1.25),
 		drive_sys.DriveToPointCmd({14, 14}, vex::reverse, 0.6)->withTimeout(1),
 		goal_grabber_command(false),
+		new DelayCommand(500),
 		drive_sys.DriveToPointCmd({24, 24}, vex::forward, 0.6)->withTimeout(1),
 
 		// SECOND HALF
@@ -167,6 +168,7 @@ void skills() {
 		conveyor_stop_command(),
 		drive_sys.TurnToHeadingCmd(0, 0.6)->withTimeout(1),
 		drive_sys.DriveToPointCmd({96, 24}, vex::forward, 0.6)->withTimeout(3),
+		odom.SetPositionCmd({96, 24, 0}),
 
 		// Second Mogo
 		drive_sys.TurnToHeadingCmd(-90, 0.6)->withTimeout(1),
@@ -188,9 +190,9 @@ void skills() {
 		new DelayCommand(500),
 		conveyor_stop_command(),
 		// go into corner
-		drive_sys.DriveToPointCmd({132, 12}, vex::forward, 0.6)->withTimeout(2),
+		drive_sys.DriveForwardCmd(8, vex::forward, 0.6)->withTimeout(1),
 		// go outta corner
-		drive_sys.DriveToPointCmd({144, 24}, vex::reverse, 0.6)->withTimeout(2),
+		drive_sys.DriveForwardCmd(-8, vex::reverse, 0.6)->withTimeout(1),
 		// turn sideways to spit
 		drive_sys.TurnToHeadingCmd(-135, 0.6)->withTimeout(1),
 		outtake_command(),
@@ -207,11 +209,13 @@ void skills() {
 		drive_sys.DriveForwardCmd(8, vex::reverse, 0.6)->withTimeout(1),
 		drive_sys.TurnToHeadingCmd(135, 0.6)->withTimeout(1),
 		// put mogo in corner
-		drive_sys.DriveToPointCmd({132, 12}, vex::reverse, 0.6)->withTimeout(2),
 		goal_grabber_command(false),
+		drive_sys.DriveToPointCmd({132, 12}, vex::reverse, 0.6)->withTimeout(2),
 		stop_intake(),
 		conveyor_stop_command(),
+		new DelayCommand(100),
 		// drive into ladder
+		// drive_sys.TurnToHeadingCmd(135, 0.6)->withTimeout(1),
 		drive_sys.DriveForwardCmd(72, vex::forward, 0.8)->withTimeout(3),
 
 	};
