@@ -97,7 +97,7 @@ void skills() {
 			while(true) {
 				OdometryBase *odombase = &odom;
                 pose_t pos = odombase->get_position();
-            	printf("ODO X: %.2f, Y: %.2f, R:%.2f\n", pos.x, pos.y, pos.rot);
+            	printf("ODO X: %.2f, Y: %.2f, R:%.2f, Concurr: %f\n", pos.x, pos.y, pos.rot, conveyor.current());
 				vexDelay(100);
 
 				if((conveyor.current() > 2) && conveyor.velocity(rpm) < 0.5){
@@ -116,8 +116,8 @@ void skills() {
 
 		// Second Ring
 		drive_sys.TurnToHeadingCmd(-45, .6) -> withTimeout(1),
-		conveyor_intake_command(),
-		new DelayCommand(300),
+		conveyor_intake_command(10),
+		new DelayCommand(350),
 		conveyor_stop_command(),
 		intake_command(),
 		drive_sys.DriveToPointCmd({48, 48}, vex::forward, .6) -> withTimeout(1),
@@ -128,7 +128,7 @@ void skills() {
 		drive_sys.DriveToPointCmd({48, 24}, vex::reverse, .6) -> withTimeout(1.25),
 		goal_grabber_command(true),
 		new DelayCommand(200),
-		conveyor_intake_command(),
+		conveyor_intake_command(10),
 		intake_command(),
 
 		// Third Ring
@@ -137,7 +137,7 @@ void skills() {
 
 		// Fourth Ring
 		drive_sys.TurnToHeadingCmd(-90, 0.7)->withTimeout(0.8),
-		drive_sys.DriveToPointCmd({72, 16}, vex::forward, 0.6)->withTimeout(0.5),
+		drive_sys.DriveToPointCmd({72, 13}, vex::forward, 0.6)->withTimeout(0.5),
 		
 
 		// Fifth Ring
@@ -153,7 +153,7 @@ void skills() {
 		
 		// Drop
 		new DelayCommand(1000),
-		conveyor_intake_command(-12),
+		conveyor_intake_command(-10),
 		new DelayCommand(100),
 		conveyor_stop_command(),
 		drive_sys.TurnToHeadingCmd(45, 0.6)->withTimeout(1.25),
@@ -161,8 +161,11 @@ void skills() {
 		goal_grabber_command(false),
 		new DelayCommand(500),
 		drive_sys.DriveToPointCmd({24, 24}, vex::forward, 0.6)->withTimeout(1),
-
 		// SECOND HALF
+		drive_sys.TurnToHeadingCmd(45, 0.6)->withTimeout(1),
+		// drive_sys.DriveTankCmd(0.5, 0.5),
+		drive_sys.DriveForwardCmd(95, vex::forward, 0.8)->withTimeout(4),
+		// new DebugCommand,
 
 		// First ring
 		conveyor_stop_command(),

@@ -32,6 +32,14 @@ vex::motor intake_roller(vex::PORT19, vex::gearSetting::ratio6_1, false);
 vex::motor intake_ramp(vex::PORT11, vex::gearSetting::ratio6_1, false);
 vex::motor conveyor(vex::PORT16, vex::gearSetting::ratio6_1, true);
 
+std::map<std::string, vex::motor &> motor_names{
+  {"lft", left_front_top},   {"lfb", left_front_bottom},   {"lbt", left_back_top},   {"lbb", left_back_bottom},
+
+  {"right 1", right_front_top}, {"right 2", right_front_bottom}, {"right 3", right_back_top}, {"right 4", right_back_bottom},
+  {"iroll", intake_roller}, {"iramp", intake_ramp}, {"con", conveyor}
+
+};
+
 const double intake_volts = 12.0;
 
 void intake(double volts) {
@@ -127,7 +135,8 @@ void robot_init()
     screen::start_screen(
         Brain.Screen,
         {
-            new screen::PIDPage(turn_pid, "turn")
+            new screen::PIDPage(turn_pid, "turn"),
+            new screen::StatsPage(motor_names),
         },
         0
     );

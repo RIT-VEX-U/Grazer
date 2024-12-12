@@ -108,6 +108,7 @@ void opcontrol()
     });
 
     while (true) {
+        printf("Current: %f\n", conveyor.current());
         if(!intake_button.pressing() && !outtake_button.pressing() && !conveyor_button.pressing()) {
             intake_roller.stop();
             intake_ramp.stop();
@@ -193,6 +194,7 @@ void testing() {
     });
 
     while (true) {
+        printf("Current: %f\n", conveyor.current());
         if (conveyor_optical.isNearObject()) {
            con.Screen.print(conveyor_optical.color());
         }
