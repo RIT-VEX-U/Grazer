@@ -132,12 +132,12 @@ void robot_init()
     conveyor_optical.setLight(vex::ledState::on);
     conveyor_optical.setLightPower(100, vex::percent);
 
-    screen::start_screen(
-        Brain.Screen,
-        {
-            new screen::PIDPage(turn_pid, "turn"),
-            new screen::StatsPage(motor_names),
-        },
-        0
-    );
+    // screen::start_screen(
+    //     Brain.Screen,
+    //     {
+    //         new screen::PIDPage(turn_pid, "turn"),
+    //         new screen::StatsPage(motor_names),
+    //     },
+    //     0
+    // );
 }

@@ -3,12 +3,12 @@
 #include "robot-config.h"
 #include <iostream>
 
-const vex::controller::button &intake_button = con.ButtonL2;
-const vex::controller::button &outtake_button = con.ButtonL1;
-const vex::controller::button &goal_grabber = con.ButtonRight;
+const vex::controller::button &intake_button = con.ButtonL1;
+const vex::controller::button &outtake_button = con.ButtonL2;
+const vex::controller::button &goal_grabber = con.ButtonB;
 const vex::controller::button &ring_doinker = con.ButtonY;
-const vex::controller::button &conveyor_button = con.ButtonR2;
-const vex::controller::button &rev_conveyor_button = con.ButtonR1;
+const vex::controller::button &conveyor_button = con.ButtonR1;
+const vex::controller::button &rev_conveyor_button = con.ButtonR2;
 
 void testing();
 /**
@@ -18,63 +18,64 @@ void opcontrol()
 {
     // testing();
 
-    class DebugCommand : public AutoCommand {
-    public:
-        bool run() override {
-            drive_sys.stop();
-            pose_t pos = odom.get_position();
-            printf("ODO X: %.2f, Y: %.2f, R:%.2f\n", pos.x, pos.y, pos.rot);
-            printf("ENC LEFT POS: %.2f, ENC RIGHT POS: %.2f, ENC BACK POS: %.2f\n", left_enc.position(vex::rotationUnits::deg), right_enc.position(vex::rotationUnits::deg), front_enc.position(vex::rotationUnits::deg));
-            while (true) {
-                double f = con.Axis3.position() / 200.0;
-                double s = con.Axis1.position() / 200.0;
-                // double left_enc_start_pos = left_enc.position(vex::rotationUnits::rev);
-                // drive_sys.drive_arcade(f, s, 1, TankDrive::BrakeType::None);
-                OdometryBase *odombase = &odom;
-                pose_t pos = odombase->get_position();
-                // printf("ODO X: %.2f, Y: %.2f, R:%.2f\n", pos.x, pos.y, pos.rot);
-                std::cout << "ODO X: " << pos.x << " Y: " << pos.y << " R: " << pos.rot << endl;
+    // class DebugCommand : public AutoCommand {
+    // public:
+    //     bool run() override {
+    //         drive_sys.stop();
+    //         pose_t pos = odom.get_position();
+    //         printf("ODO X: %.2f, Y: %.2f, R:%.2f\n", pos.x, pos.y, pos.rot);
+    //         printf("ENC LEFT POS: %.2f, ENC RIGHT POS: %.2f, ENC BACK POS: %.2f\n", left_enc.position(vex::rotationUnits::deg), right_enc.position(vex::rotationUnits::deg), front_enc.position(vex::rotationUnits::deg));
+    //         while (true) {
+    //             double l = con.Axis4.position();
+    //             double r = con.Axis2.position();
+    //             // double left_enc_start_pos = left_enc.position(vex::rotationUnits::rev);
+    //             drive_sys.drive_tank(l, r, 1, TankDrive::BrakeType::None);
+    //             // drive_sys.drive_arcade(f, s, 1, TankDrive::BrakeType::None);
+    //             OdometryBase *odombase = &odom;
+    //             pose_t pos = odombase->get_position();
+    //             // printf("ODO X: %.2f, Y: %.2f, R:%.2f\n", pos.x, pos.y, pos.rot);
+    //             std::cout << "ODO X: " << pos.x << " Y: " << pos.y << " R: " << pos.rot << endl;
                 
-                // printf("ENC LEFT REV: %.2f, ENC RIGHT POS: %.2f, ENC BACK POS: %.2f\n", left_enc.position(vex::rotationUnits::deg), right_enc.position(vex::rotationUnits::deg), front_enc.position(vex::rotationUnits::deg));
-                // if (left_enc.position(vex::rotationUnits::rev) >= 1.0) {
-                //     break;
-                // }
-                vexDelay(100);
-            }
-            return false;
-        }
-    };
+    //             // printf("ENC LEFT REV: %.2f, ENC RIGHT POS: %.2f, ENC BACK POS: %.2f\n", left_enc.position(vex::rotationUnits::deg), right_enc.position(vex::rotationUnits::deg), front_enc.position(vex::rotationUnits::deg));
+    //             // if (left_enc.position(vex::rotationUnits::rev) >= 1.0) {
+    //             //     break;
+    //             // }
+    //             vexDelay(100);
+    //         }
+    //         return false;
+    //     }
+    // };
 
 
 
-    con.ButtonA.pressed([]() {
-        CommandController cc{
-            odom.SetPositionCmd({.x=0,.y=0,.rot=0}),
-            // drive_sys.DriveToPointCmd({.x=72.0, .y=0}, vex::fwd, 0.6),
-            // drive_sys.PurePursuitCmd(PurePursuit::Path({
-            //     {.x=48.0, .y=0},
-            //     {.x=72.0, .y=0},
-            // }, 2), vex::directionType::fwd, 0.6),
-            // new RepeatUntil({
-            //     drive_sys.DriveForwardCmd(24.0, vex::fwd, 0.6)->withTimeout(12),
-            //     new DelayCommand(500),
-            // }, new TimesTestedCondition(4)),
-            // drive_sys.DriveForwardCmd(24.0, vex::fwd, 0.8)->withTimeout(3),
-            drive_sys.TurnToHeadingCmd(210, 0.6)->withTimeout(3),
+    // con.ButtonA.pressed([]() {
+    //     CommandController cc{
+    //         odom.SetPositionCmd({.x=0,.y=0,.rot=0}),
+    //         // drive_sys.DriveToPointCmd({.x=72.0, .y=0}, vex::fwd, 0.6),
+    //         // drive_sys.PurePursuitCmd(PurePursuit::Path({
+    //         //     {.x=48.0, .y=0},
+    //         //     {.x=72.0, .y=0},
+    //         // }, 2), vex::directionType::fwd, 0.6),
+    //         // new RepeatUntil({
+    //         //     drive_sys.DriveForwardCmd(24.0, vex::fwd, 0.6)->withTimeout(12),
+    //         //     new DelayCommand(500),
+    //         // }, new TimesTestedCondition(4)),
+    //         // drive_sys.DriveForwardCmd(24.0, vex::fwd, 0.8)->withTimeout(3),
+    //         drive_sys.TurnToHeadingCmd(210, 0.6)->withTimeout(3),
             
-            // drive_sys.TurnToHeadingCmd(90, 0.6)->withTimeout(5),
-            // new DelayCommand(500),
-            // drive_sys.TurnToHeadingCmd(180, 0.6)->withTimeout(5),
-            // new DelayCommand(500),
-            // drive_sys.TurnToHeadingCmd(270, 0.6)->withTimeout(5),
-            // new DelayCommand(500),
-            // drive_sys.TurnToHeadingCmd(0, 0.6)->withTimeout(5),
-            // new DelayCommand(500),
-            // drive_sys.TurnToHeadingCmd(180, 0.7)->withTimeout(5),
-            // new Async(new DebugCommand())
-        };
-        cc.run();
-    });
+    //         // drive_sys.TurnToHeadingCmd(90, 0.6)->withTimeout(5),
+    //         // new DelayCommand(500),
+    //         // drive_sys.TurnToHeadingCmd(180, 0.6)->withTimeout(5),
+    //         // new DelayCommand(500),
+    //         // drive_sys.TurnToHeadingCmd(270, 0.6)->withTimeout(5),
+    //         // new DelayCommand(500),
+    //         // drive_sys.TurnToHeadingCmd(0, 0.6)->withTimeout(5),
+    //         // new DelayCommand(500),
+    //         // drive_sys.TurnToHeadingCmd(180, 0.7)->withTimeout(5),
+    //         // new Async(new DebugCommand())
+    //     };
+    //     cc.run();
+    // });
 
     // ================ INIT ================
     while (imu.isCalibrating()) {
@@ -97,6 +98,7 @@ void opcontrol()
 
     rev_conveyor_button.pressed([]() {
         conveyor.spin(vex::directionType::rev, 12, vex::volt);
+        outtake();
     });
 
     goal_grabber.pressed([]() {
@@ -108,8 +110,8 @@ void opcontrol()
     });
 
     while (true) {
-        printf("Current: %f\n", conveyor.current());
-        if(!intake_button.pressing() && !outtake_button.pressing() && !conveyor_button.pressing()) {
+        // printf("Current: %f\n", conveyor.current());
+        if(!intake_button.pressing() && !outtake_button.pressing() && !conveyor_button.pressing() && !rev_conveyor_button.pressing()) {
             intake_roller.stop();
             intake_ramp.stop();
         }
@@ -118,12 +120,11 @@ void opcontrol()
             conveyor.stop();
         }
 
-        double straight = (double)con.Axis3.position() / 100;
-        double turn = (double)con.Axis1.position() / 100;
+        double l = con.Axis3.position();
+        double r = con.Axis2.position();
+        drive_sys.drive_tank(l, r, 1, TankDrive::BrakeType::None);
 
-        drive_sys.drive_arcade(straight, turn * 0.75, 1, TankDrive::BrakeType::None);
-
-        vexDelay(10);
+        vexDelay(100);
     }
 }
 
@@ -139,19 +140,23 @@ void testing() {
             pose_t pos = odom.get_position();
             printf("ODO X: %.2f, Y: %.2f, R:%.2f\n", pos.x, pos.y, pos.rot);
             printf("ENC LEFT POS: %.2f, ENC RIGHT POS: %.2f, ENC BACK POS: %.2f\n", left_enc.position(vex::rotationUnits::deg), right_enc.position(vex::rotationUnits::deg), front_enc.position(vex::rotationUnits::deg));
-            // while (true) {
-            //     double f = con.Axis3.position() / 200.0;
-            //     double s = con.Axis1.position() / 200.0;
-            //     // double left_enc_start_pos = left_enc.position(vex::rotationUnits::rev);
-            //     drive_sys.drive_arcade(f, s, 1, TankDrive::BrakeType::None);
-            //     pose_t pos = odom.get_position();
-            //     printf("ODO X: %.2f, Y: %.2f, R:%.2f\n", pos.x, pos.y, pos.rot);
-            //     // printf("ENC LEFT REV: %.2f, ENC RIGHT POS: %.2f, ENC BACK POS: %.2f\n", left_enc.position(vex::rotationUnits::deg), right_enc.position(vex::rotationUnits::deg), front_enc.position(vex::rotationUnits::deg));
-            //     // if (left_enc.position(vex::rotationUnits::rev) >= 1.0) {
-            //     //     break;
-            //     // }
-            //     vexDelay(100);
-            // }
+            while (true) {
+                double l = con.Axis4.position();
+                double r = con.Axis2.position();
+                // double left_enc_start_pos = left_enc.position(vex::rotationUnits::rev);
+                drive_sys.drive_tank(l, r, 1, TankDrive::BrakeType::None);
+                // drive_sys.drive_arcade(f, s, 1, TankDrive::BrakeType::None);
+                OdometryBase *odombase = &odom;
+                pose_t pos = odombase->get_position();
+                // printf("ODO X: %.2f, Y: %.2f, R:%.2f\n", pos.x, pos.y, pos.rot);
+                std::cout << "ODO X: " << pos.x << " Y: " << pos.y << " R: " << pos.rot << endl;
+                
+                // printf("ENC LEFT REV: %.2f, ENC RIGHT POS: %.2f, ENC BACK POS: %.2f\n", left_enc.position(vex::rotationUnits::deg), right_enc.position(vex::rotationUnits::deg), front_enc.position(vex::rotationUnits::deg));
+                // if (left_enc.position(vex::rotationUnits::rev) >= 1.0) {
+                //     break;
+                // }
+                vexDelay(100);
+            }
             return true;
         }
     };
