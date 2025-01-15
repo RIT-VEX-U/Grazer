@@ -3,12 +3,12 @@
 #include "vex.h"
 #include <iostream>
 
-const vex::controller::button &intake_button = con.ButtonL1;
-const vex::controller::button &outtake_button = con.ButtonL2;
+const vex::controller::button &intake_button = con.ButtonL2;
+const vex::controller::button &outtake_button = con.ButtonL1;
 const vex::controller::button &goal_grabber = con.ButtonB;
 const vex::controller::button &ring_doinker = con.ButtonY;
-const vex::controller::button &conveyor_button = con.ButtonR1;
-const vex::controller::button &rev_conveyor_button = con.ButtonR2;
+const vex::controller::button &conveyor_button = con.ButtonR2;
+const vex::controller::button &rev_conveyor_button = con.ButtonR1;
 
 void testing();
 /**
@@ -113,9 +113,13 @@ void opcontrol() {
       conveyor.stop();
     }
 
+    // double l = con.Axis3.position() / 100.0;
+    // double r = con.Axis2.position() / 100.0;
+
     double l = con.Axis3.position() / 100.0;
-    double r = con.Axis2.position() / 100.0;
-    drive_sys.drive_tank(l, r, 1, TankDrive::BrakeType::None);
+    double r = con.Axis1.position() / 100.0;
+    drive_sys.drive_arcade(l, r * 0.7, 1, TankDrive::BrakeType::None);
+    // drive_sys.drive_tank(l, r, 1, TankDrive::BrakeType::None);
 
     vexDelay(10);
   }
@@ -137,8 +141,8 @@ void testing() {
         right_enc.position(vex::rotationUnits::deg), front_enc.position(vex::rotationUnits::deg)
       );
       while (true) {
-        double l = con.Axis4.position();
-        double r = con.Axis2.position();
+        double l = con.Axis3.position();
+        double r = con.Axis1.position();
         // double left_enc_start_pos = left_enc.position(vex::rotationUnits::rev);
         drive_sys.drive_tank(l, r, 1, TankDrive::BrakeType::None);
         // drive_sys.drive_arcade(f, s, 1, TankDrive::BrakeType::None);
