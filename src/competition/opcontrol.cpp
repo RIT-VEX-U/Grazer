@@ -118,7 +118,7 @@ void opcontrol() {
 
     double l = con.Axis3.position() / 100.0;
     double r = con.Axis1.position() / 100.0;
-    drive_sys.drive_arcade(l, r * 0.7, 1, TankDrive::BrakeType::None);
+    drive_sys.drive_arcade(l, r * 0.7, 1, TankDrive::BrakeType::TurnOnly);
     // drive_sys.drive_tank(l, r, 1, TankDrive::BrakeType::None);
 
     vexDelay(10);
