@@ -6,7 +6,6 @@
 const vex::controller::button &intake_button = con.ButtonL1;
 const vex::controller::button &outtake_button = con.ButtonL2;
 const vex::controller::button &goal_grabber = con.ButtonB;
-const vex::controller::button &ring_doinker = con.ButtonY;
 const vex::controller::button &conveyor_button = con.ButtonR1;
 const vex::controller::button &rev_conveyor_button = con.ButtonR2;
 
@@ -98,8 +97,6 @@ void opcontrol() {
   });
 
   goal_grabber.pressed([]() { goal_grabber_sol.set(!goal_grabber_sol); });
-
-  ring_doinker.pressed([]() { ring_pusher_sol.set(!ring_pusher_sol); });
 
   while (true) {
     // printf("Current: %f\n", conveyor.current());

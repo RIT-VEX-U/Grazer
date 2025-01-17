@@ -74,7 +74,6 @@ vex::motor_group left_motors{left_front_top, left_front_bottom, left_back_top, l
 vex::motor_group right_motors{right_front_top, right_front_bottom, right_back_top, right_back_bottom};
 // Pneumatics
 vex::digital_out goal_grabber_sol{Brain.ThreeWirePort.A};
-vex::digital_out ring_pusher_sol{Brain.ThreeWirePort.B};
 
 // ================ SUBSYSTEMS ================
 
