@@ -6,6 +6,7 @@
  */
 
 void skills();
+void game_auto();
 
 void autonomous()
 {
@@ -13,7 +14,8 @@ void autonomous()
 		vexDelay(1);
 	}
 
-	skills();
+	game_auto();
+	// skills();
 }
 
 AutoCommand *intake_command(double amt = 12.0) {
@@ -88,6 +90,24 @@ public:
 		return false;
 	}
 };
+
+void game_auto() {
+	CommandController cc {
+		odom.SetPositionCmd({.x = 20, .y = 96, .rot = 90}),
+
+		//drive_sys.DriveToPointCmd({48, 96}, vex::reverse, .3) -> withTimeout(5.0)->withCancelCondition(drive_sys.DriveStalledCondition(0.05)),
+		drive_sys.DriveForwardCmd(28, vex::reverse, .5) -> withTimeout(5),
+
+		drive_sys.TurnToPointCmd(72, 72, vex::reverse, .5) -> withTimeout(3),
+		//drive_sys.TurnToHeadingCmd(45, .5) -> withTimeout(3),
+
+		drive_sys.DriveForwardCmd(34, vex::reverse, .5) -> withTimeout(5),
+
+		goal_grabber_command(true),
+
+	};
+	cc.run();
+}
 
 void skills() {
 	CommandController cc {

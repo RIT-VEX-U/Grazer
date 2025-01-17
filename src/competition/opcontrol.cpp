@@ -1,4 +1,5 @@
 #include "competition/opcontrol.h"
+#include "competition/autonomous.h"
 #include "robot-config.h"
 #include "vex.h"
 #include <iostream>
@@ -76,6 +77,8 @@ void opcontrol() {
   //     cc.run();
   // });
 
+  autonomous();
+
   // ================ INIT ================
   while (imu.isCalibrating()) {
     vexDelay(1);
@@ -138,7 +141,7 @@ void testing() {
         double r = con.Axis2.position();
         // double left_enc_start_pos = left_enc.position(vex::rotationUnits::rev);
         drive_sys.drive_tank(l, r, 1, TankDrive::BrakeType::None);
-        // drive_sys.drive_arcade(f, s, 1, TankDrive::BrakeType::None);
+        // drive_sys.drive_arcade(r, l, 1, TankDrive::BrakeType::None);
         OdometryBase *odombase = &odom;
         pose_t pos = odombase->get_position();
         // printf("ODO X: %.2f, Y: %.2f, R:%.2f\n", pos.x, pos.y, pos.rot);
@@ -158,7 +161,7 @@ void testing() {
   con.ButtonA.pressed([]() {
     CommandController cc{
       odom.SetPositionCmd({.x = 0, .y = 0, .rot = 0}),
-      // drive_sys.DriveToPointCmd({.x=72.0, .y=0}, vex::fwd, 0.6),
+      drive_sys.DriveToPointCmd({.x=48.0, .y=0}, vex::fwd, 0.6),
       // drive_sys.PurePursuitCmd(PurePursuit::Path({
       //     {.x=48.0, .y=0},
       //     {.x=72.0, .y=0},
@@ -168,7 +171,7 @@ void testing() {
       //     new DelayCommand(500),
       // }, new TimesTestedCondition(4)),
       // drive_sys.DriveToPointCmd(point_t{48, 0}, vex::fwd, 0.4)->withTimeout(10),
-      drive_sys.TurnToHeadingCmd(210, 0.6)->withTimeout(3),
+      // drive_sys.TurnToHeadingCmd(210, 0.6)->withTimeout(3),
       // drive_sys.DriveToPointCmd(point_t{24, -24}, vex::fwd, 0.7)->withTimeout(3),
       // drive_sys.TurnToHeadingCmd(180, 0.7)->withTimeout(3),
       // drive_sys.DriveToPointCmd(point_t{0, -24}, vex::fwd, 0.7)->withTimeout(3),
