@@ -1,6 +1,7 @@
 #pragma once
-#include "vex.h"
 #include "core.h"
+#include "intake.h"
+#include "vex.h"
 
 extern vex::brain Brain;
 extern vex::controller con;
@@ -30,12 +31,9 @@ extern vex::motor intake_roller;
 extern vex::motor intake_ramp;
 extern vex::motor conveyor;
 
-void intake(double volts);
-void intake();
-void outtake(double volts);
-void outtake();
-void conveyor_intake(double volts);
-void conveyor_intake();
+extern vex::optical conveyor_sensor;
+
+extern Intake smart_intake;
 
 extern vex::motor_group left_motors;
 extern vex::motor_group right_motors;
