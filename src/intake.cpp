@@ -16,7 +16,7 @@ bool is_red_ring(vex::color &col) {
 
 bool is_blue_ring(vex::color &col) {
   double hue = col.hue();
-  return hue < 60;
+  return hue < 250 && hue > 180;
 }
 
 int Intake::thread_func(void *v_self) {
@@ -25,11 +25,14 @@ int Intake::thread_func(void *v_self) {
   double intake_volts = 12.0;
 
   // TUNE THESE
-  uint32_t timerange_start = 100; // ms
-  uint32_t timerange_end = 1800;  // ms
+  uint32_t timerange_start = 94; // ms
+  uint32_t timerange_end = 300;  // ms
 
   self.conveyor_sensor.setLightPower(100.0);
   self.conveyor_sensor.setLight(vex::ledState::on);
+
+  // ALSO TUNE THIS
+  self.conveyor_sensor.objectDetectThreshold(180);
 
   bool was_ring = false;
 
@@ -39,7 +42,9 @@ int Intake::thread_func(void *v_self) {
 
     bool is_red = is_red_ring(col);
     bool is_blue = is_blue_ring(col);
-    bool is_ring = is_red || is_blue;
+    // bool is_ring = is_red || is_blue;
+    bool is_ring = self.conveyor_sensor.isNearObject();
+
     FilterColor ring_color = is_red ? FilterColor::Red : FilterColor::Blue;
 
     // Conveyor
@@ -56,11 +61,13 @@ int Intake::thread_func(void *v_self) {
       break;
     }
 
+    // printf("%.2f, %.2f, %.2f\n", col.hue(), col.saturation(), col.brightness());
+
     if (is_ring && !was_ring) {
-      //   printf(" ring\n");
+        // printf(" ring\n");
       self.timer_since_last_seen.reset();
     } else {
-      //   printf("no ring\n");
+        // printf("no ring\n");
     }
 
     switch (self.intake_state) {
@@ -72,7 +79,7 @@ int Intake::thread_func(void *v_self) {
       self.intake_ramp.spin(vex::fwd, intake_volts, vex::volt);
       self.intake_roller.spin(vex::fwd, intake_volts, vex::volt);
       printf("time: %d\n", self.timer_since_last_seen.time());
-      if (self.timer_since_last_seen.time() > timerange_start && self.timer_since_last_seen.time() < timerange_end) {
+      if (self.timer_since_last_seen.time() > timerange_start && self.timer_since_last_seen.time() < timerange_end && ring_color == self.color_we_want) {
         printf("Flippijg\n");
         self.conveyor.stop();
       } else {

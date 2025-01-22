@@ -34,7 +34,7 @@ vex::motor conveyor(vex::PORT16, vex::gearSetting::ratio6_1, true);
 
 vex::optical conveyor_sensor{vex::PORT17};
 
-Intake smart_intake{conveyor, intake_roller, intake_ramp, conveyor_optical, Intake::FilterColor::Red};
+Intake smart_intake{conveyor, intake_roller, intake_ramp, conveyor_optical, Intake::FilterColor::Blue};
 
 std::map<std::string, vex::motor &> motor_names{
   {"lft", left_front_top},

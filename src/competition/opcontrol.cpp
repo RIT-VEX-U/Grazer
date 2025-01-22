@@ -28,7 +28,8 @@ void opcontrol() {
 
   conveyor_button.pressed([]() {
     smart_intake.conveyor_start();
-    smart_intake.intake_in();
+    smart_intake.intake_and_sort();
+    // smart_intake.intake_in();
     // conveyor.spin(vex::directionType::fwd, 12, vex::volt);
     // intake();
   });
